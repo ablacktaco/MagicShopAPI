@@ -10,7 +10,8 @@ import Foundation
 
 struct ShopViewState {
     
-    private let bookList: MagicBookList = MagicBookList()
+    let magicBook = MagicBookList.shared
+//    private let bookList: MagicBookList = MagicBookList()
     
     var shopMode: shopMode
     enum shopMode {
@@ -25,15 +26,15 @@ struct ShopViewState {
         case level3
     }
 
-    var shopList: [MagicBook] {
+    var shopList: [MagicBook.Data] {
 
         switch self.levelMode {
         case .level1:
-            return bookList.level1
+            return magicBook.level1
         case .level2:
-            return bookList.level2
+            return magicBook.level2
         case .level3:
-            return bookList.level3
+            return magicBook.level3
         }
     }
 }

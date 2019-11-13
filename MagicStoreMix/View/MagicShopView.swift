@@ -40,18 +40,6 @@ class MagicShopView: UIView {
     @IBOutlet private var magicShopCollectionView: UICollectionView! {
         didSet { setViewBorder(view: magicShopCollectionView, configSetting: .viewBorder) }
     }
-    @IBOutlet private var purchaseView: PurchaseView! {
-        didSet {
-            purchaseView.center = CGPoint(x: screenBounds.width / 2, y: screenBounds.height / 2)
-            setViewBorder(view: purchaseView, configSetting: .viewBorder)
-        }
-    }
-    @IBOutlet private var tauntingView: TauntingView! {
-        didSet {
-            tauntingView.center = CGPoint(x: screenBounds.width / 2, y: screenBounds.height / 2)
-            setViewBorder(view: tauntingView, configSetting: .viewBorder)
-        }
-    }
     
     @IBAction private func tapToSwitchLevel1(_ sender: UIButton) {
         vc?.levelMode = .level1
@@ -104,28 +92,16 @@ extension MagicShopView {
     }
 
     func showAlertView(shopMode:ShopViewState.shopMode, levelMode: ShopViewState.levelMode, indexPath: IndexPath) {
-        shopIsUserInteractionEnabled(false)
         let shopList = ShopViewState(shopMode: shopMode, levelMode: levelMode).shopList
         if !userPersist.user.purchased.contains(shopList[indexPath.row].id) {
-            if userPersist.user.totalMoney >= ShopViewState(shopMode: shopMode, levelMode: levelMode).shopList[indexPath.row].price {
-                self.addSubview(purchaseView)
-                purchaseView.perpare(mv: self)
-                purchaseView.setData(shopMode: shopMode, levelMode: levelMode, indexPath: indexPath)
-            } else {
-                self.addSubview(tauntingView)
-                tauntingView.perpare(mv: self)
+            if let alertVC = vc?.storyboard?.instantiateViewController(withIdentifier: "alertVC") as? PurchaseViewController {
+                alertVC.vc = vc
+                alertVC.levelMode = levelMode
+                alertVC.shopMode = shopMode
+                alertVC.index = indexPath.row
+                vc?.present(alertVC, animated: false, completion: nil)
             }
         }
-    }
-    
-    func shopIsUserInteractionEnabled(_ bool: Bool) {
-        for button in changeLevelStateButton {
-            button.isUserInteractionEnabled = bool
-        }
-        for button in changeShopViewStateButton {
-            button.isUserInteractionEnabled = bool
-        }
-        magicShopCollectionView.isUserInteractionEnabled = bool
     }
     
     func reloadCollectionView() {

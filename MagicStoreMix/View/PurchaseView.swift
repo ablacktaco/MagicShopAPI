@@ -10,9 +10,9 @@ import UIKit
 
 class PurchaseView: UIView {
 
-    private weak var mv: MagicShopView?
+    private weak var pvc: PurchaseViewController?
     private let userPersist = UserPersist.shared
-    private var magicBook: MagicBook?
+    private var magicBook: MagicBook.Data?
     
     @IBOutlet private var magicIcon: UIImageView!
     @IBOutlet private var magicPrice: UILabel!
@@ -25,18 +25,18 @@ class PurchaseView: UIView {
     }
     
     @IBAction private func tapToPurchase(_ sender: UIButton) {
-        userPersist.user.purchase(book: magicBook!)
+//        userPersist.user.purchase(book: magicBook!)
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
             self.removeFromSuperview()
-            self.mv?.shopIsUserInteractionEnabled(true)
-            self.mv?.setUserMoney()
-            self.mv?.reloadCollectionView()
+            self.pvc?.shopIsUserInteractionEnabled(true)
+            self.pvc?.setUserMoney()
+            self.pvc?.reloadCollectionView()
         })
     }
     @IBAction private func tapToCancelPurchase(_ sender: UIButton) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
             self.removeFromSuperview()
-            self.mv?.shopIsUserInteractionEnabled(true)
+            self.pv?.shopIsUserInteractionEnabled(true)
         })
     }
     
@@ -44,7 +44,7 @@ class PurchaseView: UIView {
 
 extension PurchaseView {
     
-    func perpare(mv: MagicShopView) { self.mv = mv }
+    func perpare(pvc: PurchaseViewController) { self.pvc = pvc }
     
     func setData(shopMode:ShopViewState.shopMode, levelMode: ShopViewState.levelMode, indexPath: IndexPath) {
         let shopList = ShopViewState(shopMode: shopMode, levelMode: levelMode).shopList

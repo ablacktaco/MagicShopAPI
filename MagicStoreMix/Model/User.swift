@@ -43,29 +43,29 @@ struct UserQQ: Codable {
         return self.totalMoney
     }
     
-    func getPurchased(book: MagicBook) -> Bool {
-        return purchased.contains(book.id)
-    }
+//    func getPurchased(book: MagicBook) -> Bool {
+//        return purchased.contains(book.id)
+//    }
     
     mutating func addMoney() {
         totalMoney += 100
     }
     
-    mutating func purchase(book: MagicBook) {
-        if totalMoney >= book.price && !purchased.contains(book.id) {
-            totalMoney -= book.price
-            purchased.insert(book.id)
-        }
-    }
+//    mutating func purchase(book: MagicBook) {
+//        if totalMoney >= book.price && !purchased.contains(book.id) {
+//            totalMoney -= book.price
+//            purchased.insert(book.id)
+//        }
+//    }
     
-    mutating func sell(book: MagicBook) {
-
-        if  purchased.contains(book.id) {
-
-            totalMoney += book.price
-            purchased.remove(book.id)
-        }
-    }
+//    mutating func sell(book: MagicBook) {
+//
+//        if  purchased.contains(book.id) {
+//
+//            totalMoney += book.price
+//            purchased.remove(book.id)
+//        }
+//    }
 }
 
 
@@ -77,6 +77,8 @@ class UserPersist {
         didSet {
             if let data = try? PropertyListEncoder().encode(self.userData) {
                 UserDefaults.standard.set(data, forKey: "userData")
+            } else {
+                UserDefaults.standard.set(nil, forKey: "userData")
             }
         }
     }
@@ -96,9 +98,7 @@ class UserPersist {
         }
     }
     
-    private init() {
-        print("Singleton initialized")
-    }
+    private init() {}
     
     private func saveData(user: UserQQ) {
 

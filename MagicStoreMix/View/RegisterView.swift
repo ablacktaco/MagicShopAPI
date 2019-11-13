@@ -36,18 +36,21 @@ extension RegisterView {
         let task = URLSession.shared.uploadTask(with: request, from: uploadData) { (data, response, error) in
             if let error = error {
                 print ("error: \(error)")
-            }
-            guard let response = response as? HTTPURLResponse,
-                (200...299).contains(response.statusCode) else {
-                print ("server error")
                 return
             }
-            if let mimeType = response.mimeType,
-                mimeType == "application/json",
-                let data = data,
-                let dataString = String(data: data, encoding: .utf8) {
-                print ("got data: \(dataString)")
+            if let response = response as? HTTPURLResponse {
+                print("status code: \(response.statusCode)")
+//                (200...299).contains(response.statusCode) else {
+//                print ("server error")
+//                return
+                if let mimeType = response.mimeType,
+                    mimeType == "application/json",
+                    let data = data,
+                    let dataString = String(data: data, encoding: .utf8) {
+                    print ("got data: \(dataString)")
+                }
             }
+            
         }
         task.resume()
         

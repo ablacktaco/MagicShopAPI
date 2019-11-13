@@ -10,8 +10,9 @@ import UIKit
 
 class MyOwnViewController: UIViewController {
     
-    let magicBookList = MagicBookList()
+//    let magicBookList = MagicBookList()
     let userPersist = UserPersist.shared
+    let magicBook = MagicBookList.shared
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -33,48 +34,48 @@ class MyOwnViewController: UIViewController {
 }
 
 
-extension MyOwnViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if indexPath.section == 0 {
-            if userPersist.user.getPurchased(book: magicBookList.level1[indexPath.item]) {
-                
-                if let sellVC = storyboard?.instantiateViewController(withIdentifier: "sellVC") as? SellViewController {
-                    sellVC.image = UIImage(named: magicBookList.level1[indexPath.item].name)
-                    sellVC.price = magicBookList.level1[indexPath.item].price
-                    sellVC.magicBook = magicBookList.level1[indexPath.item]
-                    sellVC.vc = self
-                    present(sellVC, animated: false)
-                }
-            }
-        }
-        else if indexPath.section == 1 {
-            if userPersist.user.getPurchased(book: magicBookList.level2[indexPath.item]) {
-                
-                if let sellVC = storyboard?.instantiateViewController(withIdentifier: "sellVC") as? SellViewController {
-                    sellVC.image = UIImage(named: magicBookList.level2[indexPath.item].name)
-                    sellVC.price = magicBookList.level2[indexPath.item].price
-                    sellVC.magicBook = magicBookList.level2[indexPath.item]
-                    sellVC.vc = self
-                    present(sellVC, animated: false)
-                }
-            }
-        }
-        else if indexPath.section == 2 {
-            if userPersist.user.getPurchased(book: magicBookList.level3[indexPath.item]) {
-                
-                if let sellVC = storyboard?.instantiateViewController(withIdentifier: "sellVC") as? SellViewController {
-                    sellVC.image = UIImage(named: magicBookList.level3[indexPath.item].name)
-                    sellVC.price = magicBookList.level3[indexPath.item].price
-                    sellVC.magicBook = magicBookList.level3[indexPath.item]
-                    sellVC.vc = self
-                    present(sellVC, animated: false)
-                }
-            }
-        }
-    }
-}
+//extension MyOwnViewController: UICollectionViewDelegate {
+//
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//
+//        if indexPath.section == 0 {
+//            if userPersist.user.getPurchased(book: magicBook.level1[indexPath.item]) {
+//
+//                if let sellVC = storyboard?.instantiateViewController(withIdentifier: "sellVC") as? SellViewController {
+//                    sellVC.image = UIImage(named: magicBookList.level1[indexPath.item].name)
+//                    sellVC.price = magicBookList.level1[indexPath.item].price
+//                    sellVC.magicBook = magicBookList.level1[indexPath.item]
+//                    sellVC.vc = self
+//                    present(sellVC, animated: false)
+//                }
+//            }
+//        }
+//        else if indexPath.section == 1 {
+//            if userPersist.user.getPurchased(book: magicBookList.level2[indexPath.item]) {
+//
+//                if let sellVC = storyboard?.instantiateViewController(withIdentifier: "sellVC") as? SellViewController {
+//                    sellVC.image = UIImage(named: magicBookList.level2[indexPath.item].name)
+//                    sellVC.price = magicBookList.level2[indexPath.item].price
+//                    sellVC.magicBook = magicBookList.level2[indexPath.item]
+//                    sellVC.vc = self
+//                    present(sellVC, animated: false)
+//                }
+//            }
+//        }
+//        else if indexPath.section == 2 {
+//            if userPersist.user.getPurchased(book: magicBookList.level3[indexPath.item]) {
+//
+//                if let sellVC = storyboard?.instantiateViewController(withIdentifier: "sellVC") as? SellViewController {
+//                    sellVC.image = UIImage(named: magicBookList.level3[indexPath.item].name)
+//                    sellVC.price = magicBookList.level3[indexPath.item].price
+//                    sellVC.magicBook = magicBookList.level3[indexPath.item]
+//                    sellVC.vc = self
+//                    present(sellVC, animated: false)
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 extension MyOwnViewController: UICollectionViewDataSource {
@@ -88,13 +89,13 @@ extension MyOwnViewController: UICollectionViewDataSource {
         var numberOfItems: Int!
         
         if section == 0 {
-            numberOfItems = magicBookList.level1.count
+            numberOfItems = magicBook.level1.count
             
         } else if section == 1 {
-            numberOfItems = magicBookList.level2.count
+            numberOfItems = magicBook.level2.count
             
         } else if section == 2 {
-            numberOfItems = magicBookList.level3.count
+            numberOfItems = magicBook.level3.count
         }
         
         return numberOfItems
@@ -114,16 +115,16 @@ extension MyOwnViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyOwnMagicCell", for: indexPath) as! MyOwnCollectionViewCell
         
         if indexPath.section == 0 {
-            cell.magicIcon.image = UIImage(named: magicBookList.level1[indexPath.item].name)
-            cell.hideShadowView(magicBookList.level1[indexPath.item].id)
+            cell.magicIcon.image = UIImage(named: magicBook.level1[indexPath.item].name)
+            cell.hideShadowView(magicBook.level1[indexPath.item].id)
             
         } else if indexPath.section == 1 {
-            cell.magicIcon.image = UIImage(named: magicBookList.level2[indexPath.item].name)
-            cell.hideShadowView(magicBookList.level2[indexPath.item].id)
+            cell.magicIcon.image = UIImage(named: magicBook.level2[indexPath.item].name)
+            cell.hideShadowView(magicBook.level2[indexPath.item].id)
             
         } else if indexPath.section == 2 {
-            cell.magicIcon.image = UIImage(named: magicBookList.level3[indexPath.item].name)
-            cell.hideShadowView(magicBookList.level3[indexPath.item].id)
+            cell.magicIcon.image = UIImage(named: magicBook.level3[indexPath.item].name)
+            cell.hideShadowView(magicBook.level3[indexPath.item].id)
         }
         
         return cell

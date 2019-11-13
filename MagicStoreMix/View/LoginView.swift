@@ -61,6 +61,7 @@ extension LoginView {
         let task = URLSession.shared.uploadTask(with: request, from: uploadData) { (data, response, error) in
             if let error = error {
                 print ("error: \(error)")
+                return
             }
             guard let response = response as? HTTPURLResponse,
                 (200...299).contains(response.statusCode) else {
@@ -77,6 +78,8 @@ extension LoginView {
                     self.presentUserPage()
                 }
             }
+            
+            
         }
         task.resume()
         

@@ -19,10 +19,7 @@ class TauntingView: UIView {
     }
     
     @IBAction private func tapToByeBye(_ sender: UIButton) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
-            self.removeFromSuperview()
-            self.mv?.shopIsUserInteractionEnabled(true)
-        })
+        dismiss(animated: true, completion: nil)
     }
 }
 

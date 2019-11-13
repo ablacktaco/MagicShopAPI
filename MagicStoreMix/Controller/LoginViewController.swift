@@ -10,15 +10,19 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    let magicBook = MagicBookList.shared
     let userPersist = UserPersist.shared
     var loginView: LoginView { view as! LoginView }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getMagicData()
+        while magicBook.bookLists == nil {}
+
         if UserPersist.shared.userData != nil {
-            if let UserNavigation = storyboard?.instantiateViewController(withIdentifier: "passToUserNavi") as? UINavigationController {
-                present(UserNavigation, animated: false, completion: nil)
+            if let UserNavigation = self.storyboard?.instantiateViewController(withIdentifier: "passToUserNavi") as? UINavigationController {
+                self.present(UserNavigation, animated: false, completion: nil)
             }
         }
         
@@ -37,3 +41,24 @@ class LoginViewController: UIViewController {
 
 }
 
+extension LoginViewController {
+    
+    func getMagicData() {
+        let address = "https://35.221.143.0/api/items/all"
+        if let url = URL(string: address) {
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                }
+                guard let data = data else { return }
+                if let response = response as? HTTPURLResponse {
+                    print("status code: \(response.statusCode)")
+                    if let magicData = try? JSONDecoder().decode(MagicBook.self, from: data) {
+                        self.magicBook.bookLists = magicData.data
+                    }
+                }
+            }.resume()
+        }
+    }
+    
+}
